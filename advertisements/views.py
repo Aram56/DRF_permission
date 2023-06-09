@@ -39,7 +39,8 @@ class AdvertisementViewSet(ModelViewSet):
     
     @action(methods=['post'], detail=True)
     def add_favorite(self, request, pk=None):
-        queryset = Advertisement.objects.filter(id=pk)
+        print(pk)
+        queryset = Advertisement.objects.filter(id=pk).first()
         if queryset:
             validated_data = {'favorite': queryset, 'user': request.user}
             serializer = FavoriteAdvertisementSerializer(data=validated_data)
@@ -53,6 +54,6 @@ class AdvertisementViewSet(ModelViewSet):
         queryset = Favorite.objects.filter(favorite=pk, user=request.user)
         if queryset:
             Favorite.delete(Favorite.objects.get(favorite=pk, user=request.user))
-            return Response('The Advertisement deleted from Favorites', status=status.HTTP_200_DELETED)
+            return Response('The Advertisement deleted from Favorites', status=status.HTTP_204_NO_CONTENT)
         return Response('The Advertisement missing in database', status=status.HTTP_204_NO_CONTENT)
 

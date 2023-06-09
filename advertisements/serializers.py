@@ -47,13 +47,17 @@ class FavoriteAdvertisementSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return super().create(validated_data)
     
-    def delete(self, validated_data):
-        return super().delete(validated_data)
+    # def delete(self, validated_data):
+    #     return super().delete(validated_data)
 
     def validate(self, data):
         print(data)
-        if Advertisement.objects.get(id=data['favorite'].id).creator == data['user']:
+        if Favorite.objects.filter(user=data['user'], favorite=data['favorite']):
+            raise ValidationError('The Advertisement already is favorite')
+        if data['favorite'].creator == data['user']:
             raise ValidationError("It's there is owner's advertisement")
+        # if Advertisement.objects.get(id=data['favorite'].id).creator == data['user']:
+        #     raise ValidationError("It's there is owner's advertisement")
         return data
         
         
