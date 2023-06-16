@@ -6,14 +6,12 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
 class AdvertisementStatusChoices(models.TextChoices):
-    """Статусы объявления."""
-
+    
     OPEN = "OPEN", "Открыто"
     CLOSED = "CLOSED", "Закрыто"
 
 class Advertisement(models.Model):
-    """Объявление."""
-
+    
     title = models.TextField()
     description = models.TextField(default='')
     status = models.TextField(
