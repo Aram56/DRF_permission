@@ -41,7 +41,7 @@ Authorization: Token 6a806cfd2b18cac194d1565917543fb09aaa581d
 ###
 
 # фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=1
+GET {{baseUrl}}/advertisements/?creator=2
 Content-Type: application/json
 
 ###
@@ -53,7 +53,7 @@ Content-Type: application/json
 ###
 
 #Удаление объявления
-DELETE {{baseUrl}}/advertisements/4/
+DELETE {{baseUrl}}/advertisements/7/
 # Authorization: Token 6a806cfd2b18cac194d1565917543fb09aaa581d
 Authorization: Token ab80f38682e2fee81bbbd70b4368d7d2207f82bf
 
