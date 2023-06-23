@@ -23,33 +23,14 @@ class AdvertisementViewSet(ModelViewSet):
             return [IsAuthenticated(), IsOwnerOrIsStaffOrReadOnly()]
         return []
 
-
     def get_queryset(self, *args, **kwargs):
-    #     # if self.context['request'].user is IsAuthenticated():
-    #     #     return Advertisement.objects.filter(status)=='DRAFT' and self.creator != self.context['request'].user
-    #     # if Advertisement.objects.filter(status)=='DRAFT' and self.creator != self.context['request'].user:
-    #     #     return IsNotOwner
-    #     # if self.context['request'].user == self.creator:
-    #     #     return Advertisement.objects.filter(status)=='DRAFT'
-            # return Advertisement.objects.all()
-        
-        if IsAuthenticated():
-            print(1)
+        if self.request.user.is_authenticated:
             user = self.request.user
-            return Advertisement.objects.filter(creator=user)
-        # if not IsAuthenticated(): # Почему не срабатывает это условие?
-        else: # Почему не срабатывает это условие?
-            print(2)
-            return Advertisement.objects.filter(status='OPEN') or Advertisement.objects.filter(status='CLOSED')
-            # return Advertisement.objects.filter(status=='OPEN') or Advertisement.objects.filter(status)=='CLOSED'
+            return Advertisement.objects.filter(creator=user) | Advertisement.objects.exclude(status='DRAFT')
+        else: 
+            return Advertisement.objects.exclude(status='DRAFT')
+            
     
-        # return Advertisement.objects.all()
-        
-    
-    
-    # def get_queryset(self, *args, **kwargs):
-    #     return Advertisement.objects.all()
-
     @action(detail=False)
     def favorites(self, request):
         queryset = Favorite.objects.filter(user=request.user)
